@@ -34,18 +34,18 @@ def get_booking_for_user(userid):
 @app.route("/bookings/<userid>", methods=['POST'])
 def add_booking_byuser(userid):
     req = request.get_json()
-    for book in bookings:
-        if str(userid) == str(book["userid"]):
-            for dates in book["dates"]:
+    for booking in bookings:
+        if str(userid) == str(booking["userid"]):
+            for dates in booking["dates"]:
                 if str(dates["date"]) == str(req["date"]):
                     for movie in dates["movies"]:
                         if str(movie) == str(req["movies"]):
                             return make_response(jsonify({"error": "an existing item already exists"}), 409)
                     dates["movies"].append(req["movies"][0])
-                    res = make_response(jsonify(book), 200)
+                    res = make_response(jsonify(booking), 200)
                     return res
-            book["dates"].append(req)
-            res = make_response(jsonify(book), 200)
+            booking["dates"].append(req)
+            res = make_response(jsonify(booking), 200)
             return res
 
     return make_response(jsonify({"error": "bad input parameter"}), 400)
