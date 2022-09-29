@@ -14,8 +14,8 @@ with open('{}/databases/times.json'.format("."), "r") as jsf:
 def home():
    return "<h1 style='color:blue'>Welcome to the Showtime service!</h1>"
 
-@app.route("/showmovies", methods=['GET'])
-def showmovies():
+@app.route("/showtimes", methods=['GET'])
+def showtimes():
    res = make_response(jsonify(schedule), 200)
    return res
 @app.route("/showmovies/<date>", methods=['GET'])
