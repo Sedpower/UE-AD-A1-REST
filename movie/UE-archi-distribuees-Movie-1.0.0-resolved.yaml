@@ -48,7 +48,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MovieID'
+                $ref: '#/components/schemas/MovieList'
   /movies/{movieid}:
     get:
       tags:
@@ -159,6 +159,34 @@ paths:
                 $ref: '#/components/schemas/MovieItem'
         "400":
           description: bad input parameter
+  /moviesbyrating:
+    get:
+      tags:
+        - developers
+      summary: get movies by their rating
+      description: |
+        By passing in appropritate options, you can get Movie info
+      operationId: get_movie_by_rate
+      parameters:
+        - name: rating
+          in: query
+          description: pass a rating
+          required: true
+          style: form
+          explode: true
+          schema:
+            minimum: 0
+            maximum: 10
+            type: number
+      responses:
+        "200":
+          description: Movie item list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieList'
+        "400":
+          description: bad input parameter
   /movies/{movieid}/{rate}:
     put:
       tags:
@@ -194,26 +222,29 @@ paths:
           description: movie ID not found
 components:
   schemas:
-    MovieID:
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/MovieItem'
+    MovieList:
+      type: array
+      items:
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/MovieItem'
     MovieItem:
       required:
       - director
+      - id
       - rating
       - title
       type: object
       properties:
-        title:
-          type: string
-          example: The Martian
-        rating:
-          type: string
-          example: "7"
         director:
           type: string
           example: Paul McGuigan
+        id:
+          type: string
+          example: "720d006c-3a57-4b6a-b18f-9b713b073f3c"
+        rating:
+          type: string
+          example: "7.4"
+        title:
+          type: string
+          example: The Martian
