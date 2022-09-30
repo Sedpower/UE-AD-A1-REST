@@ -66,17 +66,33 @@ paths:
           description: bad input parameter
 components:
   schemas:
-    Movies:
+    MovieList:
+      type: array
+      items:
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/MovieItem'
+    MovieItem:
       required:
-      - date
-      - movies
+        - director
+        - id
+        - rating
+        - title
       type: object
       properties:
-        user:
+        director:
           type: string
-          example: "20151130"
-        movies:
-          type: array
-          items:
-            type: string
-            example: 720d006c-3a57-4b6a-b18f-9b713b073f3c
+          example: Paul McGuigan
+        id:
+          type: string
+          example: "720d006c-3a57-4b6a-b18f-9b713b073f3c"
+        rating:
+          type: string
+          example: "7.4"
+        title:
+          type: string
+          example: The Martian
+    user:
+      type: string
+      example: "20151130"
+
