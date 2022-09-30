@@ -61,7 +61,43 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Movies'
+                $ref: '#/components/schemas/MovieList'
+        "400":
+          description: bad input parameter
+  /user/booking/{userId}/{date}:
+    get:
+      tags:
+        - developers
+      summary: get user booking for a given date
+      description: |
+        Get bookings for a given userid and date
+      operationId: get_user_booking_bydate
+      parameters:
+      - name: userId
+        in: path
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: date
+        in: path
+        description: The booking date
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Movies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+        "404":
+          description: not found
         "400":
           description: bad input parameter
 components:
@@ -92,7 +128,17 @@ components:
         title:
           type: string
           example: The Martian
-    user:
-      type: string
-      example: "20151130"
-
+    Schedule:
+      required:
+        - date
+        - movies
+      type: object
+      properties:
+        date:
+          type: string
+          example: 20151130
+        movies:
+          type: array
+          items:
+            type: string
+            example: 276c79ec-a26a-40a6-b3d3-fb242a5947b6
