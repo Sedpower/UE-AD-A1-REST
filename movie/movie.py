@@ -9,6 +9,8 @@ app = Flask(__name__)
 
 PORT = 3200
 HOST = '0.0.0.0'
+IMDB_API_BASEURL = "https://imdb-api.com/en/API"
+IMDB_API_KEY = "k_6p68dybu"
 
 with open('{}/databases/movies.json'.format("."), "r") as jsf:
     movies = json.load(jsf)["movies"]
@@ -124,6 +126,29 @@ def get_movie_date(date):
     res = make_response(jsonify(movie_tab), 200)
     return res
 
+
+# TP ROUGE
+@app.route("/imdb/movie/<title>", methods=["GET"])
+def get_movie_by_title(title):
+    req = requests.get(f"{IMDB_API_BASEURL}/SearchMovie/{IMDB_API_KEY}/{title}")
+    if req.status_code != 200:
+        return make_response({"error": "something went wrong with IMDB API"}, 503)
+    result = req.json()
+    if result["errorMessage"] == "":
+        return make_response(jsonify(result["results"]), 200)
+    return make_response({"error": result["errorMessage"]})
+
+
+@app.route("/imdb/trailer/<movieId>", methods=["GET"])
+def get_movie_trailer(movieId):
+    req = requests.get(f"{IMDB_API_BASEURL}/Trailer/{IMDB_API_KEY}/{movieId}")
+    if req.status_code != 200:
+        return make_response({"error": "something went wrong with IMDB API"}, 503)
+    result = req.json()
+    if result["errorMessage"] == "":
+        return make_response({"link": result["link"]}, 200)
+    print(req.status_code)
+    return make_response({"error": result["errorMessage"]})
 
 
 if __name__ == "__main__":
