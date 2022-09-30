@@ -209,6 +209,26 @@ paths:
           description: rate updated
         "400":
           description: movie ID not found
+  /movies/name/{q}:
+    put:
+      tags:
+        - developers
+      summary: get all movies with a movie name
+      description: print the movie with the closest name
+      parameters:
+        - name: query
+          in: path
+          description: query
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maximum: 1
+            minimum: 1
+            type: string
+      responses:
+        "200":
+          description: movie
   /movies/{movieid}/{rate}:
     put:
       tags:
