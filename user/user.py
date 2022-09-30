@@ -21,7 +21,7 @@ def home():
 def get_user_booking_bydate(userId, date):
     r = requests.get(f"http://localhost:3201/bookings/{str(userId)}")
     if r.status_code != 200:
-        return make_response({"error": "bad input parameter"})
+        return make_response({"error": "bad input parameter"}, 400)
     result = r.json()
     for dateItem in result["dates"]:
         if str(dateItem["date"]) == str(date):
