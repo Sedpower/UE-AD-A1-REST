@@ -108,6 +108,7 @@ def del_movie(movieid):
     res = make_response(jsonify({"error": "movie ID not found"}), 400)
     return res
 
+#TP BLEU
 @app.route("/movies/date/<date>", methods=['GET'])
 def get_movie_date(date):
     res_movie = requests.get('http://localhost:3202/showmovies/' + date)
@@ -116,7 +117,6 @@ def get_movie_date(date):
     for movie in movies_json:
         for movie_in in movies:
             if str(movie) == str(movie_in["id"]):
-
                 movie_tab['movies'].append(movie_in)
 
     res = make_response(jsonify(movie_tab), 200)

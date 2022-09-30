@@ -187,6 +187,28 @@ paths:
                 $ref: '#/components/schemas/MovieList'
         "400":
           description: bad input parameter
+  /movies/date/{date}:
+    put:
+      tags:
+        - developers
+      summary: get all movies at a specified date
+      description: print all the movies specified by date
+      parameters:
+        - name: date
+          in: path
+          description: date
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maximum: 1
+            minimum: 1
+            type: string
+      responses:
+        "200":
+          description: rate updated
+        "400":
+          description: movie ID not found
   /movies/{movieid}/{rate}:
     put:
       tags:
@@ -217,9 +239,13 @@ paths:
           type: integer
       responses:
         "200":
-          description: rate updated
+          description: Movie item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieItem'
         "400":
-          description: movie ID not found
+          description: bad input parameter
 components:
   schemas:
     MovieList:
