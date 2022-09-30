@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, make_response
 import json
+import requests
 import sys
 from werkzeug.exceptions import NotFound
 
@@ -106,6 +107,21 @@ def del_movie(movieid):
 
     res = make_response(jsonify({"error": "movie ID not found"}), 400)
     return res
+
+@app.route("/movies/date/<date>", methods=['GET'])
+def get_movie_date(date):
+    res_movie = requests.get('http://localhost:3202/showmovies/' + date)
+    movies_json = res_movie.json()['movies']
+    movie_tab = {'movies': []}
+    for movie in movies_json:
+        for movie_in in movies:
+            if str(movie) == str(movie_in["id"]):
+
+                movie_tab['movies'].append(movie_in)
+
+    res = make_response(jsonify(movie_tab), 200)
+    return res
+
 
 
 if __name__ == "__main__":
