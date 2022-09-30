@@ -117,6 +117,7 @@ def get_movie_date(date):
     for movie in movies_json:
         for movie_in in movies:
             if str(movie) == str(movie_in["id"]):
+
                 movie_tab['movies'].append(movie_in)
 
     res = make_response(jsonify(movie_tab), 200)
