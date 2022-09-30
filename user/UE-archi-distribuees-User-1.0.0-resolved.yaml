@@ -1,0 +1,82 @@
+---
+openapi: 3.0.0
+info:
+  title: User API
+  description: This is the API of the User service
+  contact:
+    email: benoit.catta@imt-atlantique.fr
+  license:
+    name: GPL v3
+    url: https://www.gnu.org/licenses/gpl-3.0.en.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/UE-archi-distribuees/User/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/UE-archi-distribuees/Movie/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: admins
+  description: Secured Admin-only calls
+- name: developers
+  description: Operations available to regular developers
+paths:
+  /:
+    get:
+      tags:
+      - developers
+      summary: home page of the service
+      description: |
+        Nothing to do
+      operationId: home
+      responses:
+        "200":
+          description: welcome message
+          content:
+            text/html:
+              schema:
+                type: string
+                example: <h1>Test</h1>
+  /user/booking/{userid}:
+    get:
+      tags:
+      - developers
+      summary: get the movies by userid
+      description: |
+        Get the movies for a given userid
+      operationId: get_movie_by_userid
+      parameters:
+      - name: userid
+        in: path
+        description: user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maximum: 1
+          minimum: 1
+          type: string
+      responses:
+        "200":
+          description: Movies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movies'
+        "400":
+          description: bad input parameter
+components:
+  schemas:
+    Movies:
+      required:
+      - date
+      - movies
+      type: object
+      properties:
+        user:
+          type: string
+          example: "20151130"
+        movies:
+          type: array
+          items:
+            type: string
+            example: 720d006c-3a57-4b6a-b18f-9b713b073f3c
