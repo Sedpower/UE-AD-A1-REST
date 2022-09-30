@@ -124,6 +124,32 @@ def get_movie_date(date):
     res = make_response(jsonify(movie_tab), 200)
     return res
 
+@app.route("/movies/name/<q>", methods=['GET'])
+def get_movie_name(q):
+
+    film_proche = {'movies':[]}
+    for movie in movies:
+        dist = Levenshtein.distance(str(movie["title"]).lower(), str(q).lower())
+        film_proche['movies'].append({'movie':movie,'dist':str(dist)})
+
+    film_tri = []
+
+    for f in film_proche['movies']:
+        film_tri.append(f)
+        i = False
+        while not i:
+            i = True
+            for pointeur in range(len(film_tri)):
+                if pointeur != len(film_tri)-1 and int(film_tri[pointeur]['dist'])>int(film_tri[pointeur+1]['dist']): #si je suis sup à celui d'apres
+                    ret = film_tri[pointeur] #je me stock
+                    film_tri[pointeur] = film_tri[pointeur+1] #je met celui d'avant à ma place
+                    film_tri[pointeur + 1] = ret #je me remet arpes
+                    i = False
+
+
+    res = make_response(jsonify(film_tri[0]['movie']), 200)
+    return res
+
 
 
 if __name__ == "__main__":
