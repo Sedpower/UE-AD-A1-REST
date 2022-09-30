@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, make_response
 import json
 import requests
+from rapidfuzz.distance import Levenshtein
 import sys
 from werkzeug.exceptions import NotFound
 
