@@ -31,7 +31,7 @@ def get_user_booking_bydate(userId, date):
 
 @app.route("/user/booking/<userid>", methods=['GET'])
 def get_movie_by_userid(userid):
-    dates = requests.get('http://172.16.124.165:3201/bookings/' + userid)
+    dates = requests.get('http://localhost:3201/bookings/' + userid)
     if str(dates) == '<Response [400]>':
         return make_response(jsonify({"error": "bad input parameter"}), 400)
     dates = dates.json()
@@ -39,7 +39,7 @@ def get_movie_by_userid(userid):
 
     for date in dates['dates']:
         for movie in date["movies"]:
-            res_movie = requests.get('http://172.16.124.165:3200/movies/' + movie)
+            res_movie = requests.get('http://localhost:3200/movies/' + movie)
             movie_tab['movies'].append(res_movie.json())
 
     res = make_response(jsonify(movie_tab), 200)
