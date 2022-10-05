@@ -68,7 +68,6 @@ def get_movie_by_rate():
                     json = [movie]
                 else:
                     json.append(movie)
-
     if not json:
         res = make_response(jsonify({"error": "movie rating not found"}), 400)
     else:
@@ -128,11 +127,11 @@ def get_movie_date(date):
     return res
 
 # get un movie par son nom (nom le plus proche méthode de Levenshtein)
-@app.route("/movies/name/<q>", methods=['GET'])
-def get_movie_name(q):
+@app.route("/movies/name/<title>", methods=['GET'])
+def get_movie_name(title):
     film_proche = {'movies': []}
     for movie in movies:
-        dist = Levenshtein.distance(str(movie["title"]).lower(), str(q).lower())
+        dist = Levenshtein.distance(str(movie["title"]).lower(), str(title).lower())
         film_proche['movies'].append({'movie': movie, 'dist': str(dist)})
 
     film_tri = []
