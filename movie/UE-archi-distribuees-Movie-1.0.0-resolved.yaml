@@ -209,7 +209,7 @@ paths:
           description: rate updated
         "400":
           description: movie ID not found
-  /movies/name/{q}:
+  /movies/name/{query}:
     put:
       tags:
         - developers
@@ -266,6 +266,56 @@ paths:
                 $ref: '#/components/schemas/MovieItem'
         "400":
           description: bad input parameter
+  /imdb/movie/{title}:
+    get:
+      tags:
+        - developper
+      description: Get a movie by title from IMDB API
+      operationId: get_movie_by_title
+      parameters:
+        - name: title
+          in: path
+          description: The movie title
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maximum: 1
+            minimum: 1
+            type: string
+      responses:
+        "200":
+          description: Movie list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: '#/components/schemas/IMDBMovieItem'
+  /imdb/trailer/{movieId}:
+    get:
+      tags:
+        - developper
+      description: Get a movie by title from IMDB API
+      operationId: get_movie_trailer
+      parameters:
+        - name: movieId
+          in: path
+          description: The movie id
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maximum: 1
+            minimum: 1
+            type: string
+      responses:
+        "200":
+          description: Movie trailer link
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IMDBTrailerLink'
 components:
   schemas:
     MovieList:
@@ -294,3 +344,35 @@ components:
         title:
           type: string
           example: The Martian
+    IMDBMovieItem:
+      required:
+        - description
+        - id
+        - image
+        - resultType
+        - title
+      type: object
+      properties:
+        description:
+          type: string
+          example: This is a description
+        id:
+          type: string
+          example: "tt0330373"
+        image:
+          type: string
+          example: "http://this.is.a.link"
+        resultType:
+          type: string
+          example: "Title"
+        title:
+          type: string
+          example: "This is a title"
+    IMDBTrailerLink:
+      required:
+        - link
+      type: object
+      properties:
+        link:
+          type: string
+          example: "http://this.is.a.link"
