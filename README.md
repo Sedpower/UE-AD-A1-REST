@@ -31,7 +31,11 @@ TP rouge :
 
 movie.py
 
+retourne une list de movie via un titr
+
 @app.route("/imdb/movie/<title>", methods=["GET"])
+
+retourne le lien du trailer d'un movie via movieId
 
 @app.route("/imdb/trailer/<movieId>", methods=["GET"])
 
