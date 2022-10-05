@@ -157,6 +157,10 @@ def get_movie_name(q):
 # TP ROUGE
 @app.route("/imdb/movie/<title>", methods=["GET"])
 def get_movie_by_title(title):
+    """
+    By calling this route, user can find a list of movies that match the given title
+    This route returns a list of movieItems
+    """
     req = requests.get(f"{IMDB_API_BASEURL}/SearchMovie/{IMDB_API_KEY}/{title}")
     if req.status_code != 200:
         return make_response({"error": "something went wrong with IMDB API"}, 503)
@@ -168,6 +172,10 @@ def get_movie_by_title(title):
 
 @app.route("/imdb/trailer/<movieId>", methods=["GET"])
 def get_movie_trailer(movieId):
+    """
+    By calling this route, user can find the trailer link of the film associated to the given id
+    This route returns a json which contains the trailer's link {link: "thelink"}
+    """
     req = requests.get(f"{IMDB_API_BASEURL}/Trailer/{IMDB_API_KEY}/{movieId}")
     if req.status_code != 200:
         return make_response({"error": "something went wrong with IMDB API"}, 503)
