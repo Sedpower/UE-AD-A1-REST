@@ -16,7 +16,7 @@ with open('{}/databases/users.json'.format("."), "r") as jsf:
 def home():
     return "<h1 style='color:blue'>Welcome to the User service!</h1>"
 
-
+# recupérer les movies via user is et date (appelle api bookings)
 @app.route("/user/booking/<userId>/<date>", methods=["GET"])
 def get_user_booking_bydate(userId, date):
     r = requests.get(f"http://localhost:3201/bookings/{str(userId)}")
@@ -28,7 +28,7 @@ def get_user_booking_bydate(userId, date):
             return make_response(dateItem, 200)
     return make_response({"error": "not found"}, 404)
 
-
+#récupérer les movies par date via user id (appelle api bookings + movies)
 @app.route("/user/booking/<userid>", methods=['GET'])
 def get_movie_by_userid(userid):
     dates = requests.get('http://localhost:3201/bookings/' + userid)

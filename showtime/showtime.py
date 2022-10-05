@@ -15,12 +15,12 @@ with open('{}/databases/times.json'.format("."), "r") as jsf:
 def home():
     return "<h1 style='color:blue'>Welcome to the Showtime service!</h1>"
 
-
+# Json du schedule
 @app.route("/showtimes", methods=['GET'])
 def get_schedule():
     return make_response(jsonify(schedule), 200)
 
-
+# route qui renvoie les films via date
 @app.route("/showmovies/<date>", methods=['GET'])
 def get_movies_bydate(date):
     for scheduleItem in schedule:

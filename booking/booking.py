@@ -16,12 +16,12 @@ with open('{}/databases/bookings.json'.format("."), "r") as jsf:
 def home():
     return "<h1 style='color:blue'>Welcome to the Booking service!</h1>"
 
-
+# récupérer le JSON booking
 @app.route("/bookings", methods=['GET'])
 def get_json():
     return make_response(jsonify(bookings), 200)
 
-
+# recupérer le bookings d'un user JSON
 @app.route("/bookings/<userid>", methods=['GET'])
 def get_booking_for_user(userid):
     for book in bookings:
@@ -30,7 +30,7 @@ def get_booking_for_user(userid):
             return res
     return make_response(jsonify({"error": "bad input parameter"}), 400)
 
-
+# ajouter un film au bookings d'un user via userid
 @app.route("/bookings/<userid>", methods=['POST'])
 def add_booking_byuser(userid):
     req = request.get_json()

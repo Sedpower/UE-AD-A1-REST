@@ -21,17 +21,17 @@ with open('{}/databases/movies.json'.format("."), "r") as jsf:
 def home():
     return make_response("<h1 style='color:blue'>Welcome to the Movie service!</h1>", 200)
 
-
+# HTML template
 @app.route("/template", methods=['GET'])
 def template():
     return make_response(render_template('index.html', body_text='This is my HTML template for Movie service'), 200)
 
-
+# JSON retourne le json movies
 @app.route("/json", methods=["GET"])
 def get_json():
     return make_response(jsonify(movies), 200)
 
-
+# JSON du movie récupéré avec l'id ou bien une erreur 400
 @app.route("/movies/<movieid>", methods=['GET'])
 def get_movie_byid(movieid):
     for movie in movies:
@@ -40,7 +40,7 @@ def get_movie_byid(movieid):
             return res
     return make_response(jsonify({"error": "Movie ID not found"}), 400)
 
-
+# JSON du movie récupéré avec le titre ou bien une erreur 400
 @app.route("/moviesbytitle", methods=['GET'])
 def get_movie_bytitle():
     json = ""
@@ -56,7 +56,7 @@ def get_movie_bytitle():
         res = make_response(jsonify(json), 200)
     return res
 
-
+# JSON du movie récupéré avec la note ou bien une erreur 400
 @app.route("/moviesbyrating", methods=["GET"])
 def get_movie_by_rate():
     json = ""
@@ -75,7 +75,7 @@ def get_movie_by_rate():
         res = make_response(jsonify(json), 200)
     return res
 
-
+# post d'un movie et vérification via l'id
 @app.route("/movies/<movieId>", methods=['POST'])
 def create_movie(movieid):
     req = request.get_json()
@@ -88,7 +88,7 @@ def create_movie(movieid):
     res = make_response(jsonify({"message": "movie added"}), 200)
     return res
 
-
+# Put d'une note via le movie id (modicication)
 @app.route("/movies/<movieid>/<rate>", methods=['PUT'])
 def update_movie_rating(movieid, rate):
     for movie in movies:
@@ -100,7 +100,7 @@ def update_movie_rating(movieid, rate):
     res = make_response(jsonify({"error": "movie ID not found"}), 201)
     return res
 
-
+# delete un movie via le movie id
 @app.route("/movies/<movieid>", methods=['DELETE'])
 def del_movie(movieid):
     for movie in movies:
@@ -113,6 +113,7 @@ def del_movie(movieid):
 
 
 # TP BLEU
+# recupération des movie par date appelle d'api (showmovie)
 @app.route("/movies/date/<date>", methods=['GET'])
 def get_movie_date(date):
     res_movie = requests.get('http://localhost:3202/showmovies/' + date)
@@ -126,7 +127,7 @@ def get_movie_date(date):
     res = make_response(jsonify(movie_tab), 200)
     return res
 
-
+# get un movie par son nom (nom le plus proche méthode de Levenshtein)
 @app.route("/movies/name/<q>", methods=['GET'])
 def get_movie_name(q):
     film_proche = {'movies': []}
